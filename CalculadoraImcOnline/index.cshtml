@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Calculadora de IMC Online</title>
+
+    <!-- Bootstrap -->
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom style -->
+    <link href="~/bootstrap/css/signin.css" rel="stylesheet">
+    @{
+        double peso = 0;
+        double altura = 0;
+        double imc = 0;
+        string mensagem = "";
+
+        if (IsPost)
+        {
+            altura = Request["altura"].AsFloat();
+            peso = Request["peso"].AsFloat();
+            imc = altura * altura;
+            imc = peso / imc;
+            //deixando apenas duas casas após a virgula
+            imc = double.Parse(String.Format("{0:N2}", imc));
+
+
+            if(imc < 17)
+            {
+                mensagem = "Seu IMC: "+ imc + ": Muito abaixo do peso";
+            }
+
+            if ((imc >= 17) && (imc <= 18.49))
+            {
+                mensagem = "Seu IMC: " + imc + ": Abaixo do peso";
+            }
+
+            if ((imc >= 18.5) && (imc <= 24.99))
+            {
+                mensagem = "Seu IMC: " + imc + ": Peso normal";
+            }
+
+            if ((imc >= 25) && (imc <= 29.99))
+            {
+                mensagem = "Seu IMC: " + imc + ": Acima do peso";
+            }
+
+            if ((imc >= 30) && (imc <= 34.99))
+            {
+                mensagem = "Seu IMC: " + imc + ": Obesidade I";
+            }
+
+            if ((imc >= 35) && (imc <= 39.99))
+            {
+                mensagem = "Seu IMC: " + imc + ": Obesidade II(severa)";
+            }
+
+            if (imc > 40)
+            {
+                mensagem = "Seu IMC: " + imc + ": Obesidade III(mórbida)";
+            }
+
+
+            <script>
+                alert("@mensagem");
+            </script>
+            
+        }
+    }
+
+</head>
+
+<body>
+    <div class="container">
+        <form class="form-signin" method="post">
+            <h2 class="form-signin-heading">Calculadora de IMC</h2>
+            <label class="sr-only">Digite seu peso</label>
+            <input type="text" class="form-control" placeholder="Peso" name="peso" required autofocus>
+            <label class="sr-only">Digite sua altura</label>
+            <input type="text" class="form-control" placeholder="Altura" name="altura" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Calcular</button>
+        </form>
+    </div>
+</body>
+</html>
